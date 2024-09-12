@@ -1,14 +1,15 @@
-﻿using COLOR.Domain.Etities;
+﻿using COLOR.Data.Repositories.Interfaces;
+using COLOR.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace COLOR.Data.Repository;
+namespace COLOR.Data.Repositories;
 
 public class ColorRepository : IColorRepository
 {
     private readonly AppDbContext _dbContext;
-    private readonly ILogger<PaletteRepository> _logger;
+    private readonly ILogger<ColorRepository> _logger;
 
-    public ColorRepository(AppDbContext dbContext, ILogger<PaletteRepository> logger)
+    public ColorRepository(AppDbContext dbContext, ILogger<ColorRepository> logger)
     {
         _dbContext = dbContext;
         _logger = logger;

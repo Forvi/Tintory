@@ -1,6 +1,7 @@
-﻿using COLOR.Domain.Etities;
-using COLOR.DTOs;
+﻿using COLOR.DTOs;
 using COLOR.Services;
+using COLOR.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace COLOR.Controllers;
@@ -17,8 +18,8 @@ public class PaletteController : ControllerBase
         _paletteServiceService = service;
         _logger = logger;
     }
-
-    [HttpPost("CreatePalette")]
+    
+    [HttpPost("CreatePalette"), Authorize]
     public async Task<IActionResult> CreatePalette(CreatePaletteDto request, CancellationToken ct)
     {
         try
@@ -37,15 +38,14 @@ public class PaletteController : ControllerBase
             return StatusCode(500, new { Message = "An internal server error occurred." });
         }
     }
-
-    [HttpGet("GetAllPalettes")]
+    
+   [HttpGet("GetAllPalettes"), Authorize]
     public async Task<ActionResult<GetAllPalettesDto>> GetAllPalettes(CancellationToken ct)
     {
         var generator = new ColorGenerateService();
         var list = new List<byte[]>();
         
         var palettes = await _paletteServiceService.GetAllPalettes(ct);
-        // var a = palettes.Select(s => s.Colors);
 
         return Ok(palettes);
     }

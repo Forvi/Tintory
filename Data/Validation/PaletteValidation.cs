@@ -1,4 +1,4 @@
-﻿using COLOR.Domain.Etities;
+﻿using COLOR.Domain.Entities;
 using FluentValidation;
 
 namespace COLOR.Data.Validation;

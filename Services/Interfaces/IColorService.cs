@@ -1,4 +1,4 @@
-﻿namespace COLOR.Services;
+﻿namespace COLOR.Services.Interfaces;
 
 public interface IColorService
 {

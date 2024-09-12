@@ -1,6 +1,6 @@
-﻿using COLOR.Domain.Etities;
+﻿using COLOR.Domain.Entities;
 
-namespace COLOR.Data.Repository;
+namespace COLOR.Data.Repositories.Interfaces;
 
 public interface IColorRepository
 {

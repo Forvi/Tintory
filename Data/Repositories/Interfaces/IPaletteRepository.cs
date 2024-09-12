@@ -1,7 +1,7 @@
-﻿using COLOR.Domain.Etities;
+﻿using COLOR.Domain.Entities;
 using COLOR.DTOs;
 
-namespace COLOR.Data.Repository;
+namespace COLOR.Data.Repositories.Interfaces;
 
 public interface IPaletteRepository
 {

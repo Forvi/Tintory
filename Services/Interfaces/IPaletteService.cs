@@ -1,7 +1,6 @@
-﻿using COLOR.Domain.Etities;
-using COLOR.DTOs;
+﻿using COLOR.DTOs;
 
-namespace COLOR.Services;
+namespace COLOR.Services.Interfaces;
 
 public interface IPaletteService
 {

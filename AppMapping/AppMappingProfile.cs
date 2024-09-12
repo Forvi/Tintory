@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace COLOR.Mapper;
+namespace COLOR.AppMapping;
 
 public class AppMappingProfile : Profile
 {

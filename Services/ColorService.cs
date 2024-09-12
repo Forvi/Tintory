@@ -1,7 +1,7 @@
 ﻿using COLOR.Data;
-using COLOR.Data.Repository;
+using COLOR.Data.Repositories.Interfaces;
 using COLOR.Data.Validation;
-using COLOR.Domain.Etities;
+using COLOR.Services.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 

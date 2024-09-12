@@ -1,4 +1,4 @@
-﻿using COLOR.Domain.Etities;
+﻿using COLOR.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,6 +15,11 @@ public class PaletteConfiguration : IEntityTypeConfiguration<PaletteEntity>
         builder
             .Property(p => p.Name)
             .HasMaxLength(30);
+
+        builder.HasOne(p => p.User)
+            .WithMany(u => u.Palettes)
+            .HasForeignKey(p => p.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         builder
             .HasMany(p => p.Colors)

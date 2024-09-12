@@ -22,7 +22,7 @@ namespace COLOR.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("COLOR.Domain.Etities.ColorEntity", b =>
+            modelBuilder.Entity("COLOR.Domain.Entities.ColorEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +37,7 @@ namespace COLOR.Migrations
                     b.ToTable("ColorEntities");
                 });
 
-            modelBuilder.Entity("COLOR.Domain.Etities.PaletteEntity", b =>
+            modelBuilder.Entity("COLOR.Domain.Entities.PaletteEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,9 +48,37 @@ namespace COLOR.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("PaletteEntities");
+                });
+
+            modelBuilder.Entity("COLOR.Domain.Entities.UserEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserEntities");
                 });
 
             modelBuilder.Entity("PaletteColor", b =>
@@ -68,19 +96,35 @@ namespace COLOR.Migrations
                     b.ToTable("PaletteColor");
                 });
 
+            modelBuilder.Entity("COLOR.Domain.Entities.PaletteEntity", b =>
+                {
+                    b.HasOne("COLOR.Domain.Entities.UserEntity", "User")
+                        .WithMany("Palettes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PaletteColor", b =>
                 {
-                    b.HasOne("COLOR.Domain.Etities.ColorEntity", null)
+                    b.HasOne("COLOR.Domain.Entities.ColorEntity", null)
                         .WithMany()
                         .HasForeignKey("ColorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("COLOR.Domain.Etities.PaletteEntity", null)
+                    b.HasOne("COLOR.Domain.Entities.PaletteEntity", null)
                         .WithMany()
                         .HasForeignKey("PaletteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("COLOR.Domain.Entities.UserEntity", b =>
+                {
+                    b.Navigation("Palettes");
                 });
 #pragma warning restore 612, 618
         }

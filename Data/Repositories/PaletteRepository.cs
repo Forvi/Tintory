@@ -1,10 +1,9 @@
-﻿using COLOR.Domain.Etities;
+﻿using COLOR.Data.Repositories.Interfaces;
+using COLOR.Domain.Entities;
 using COLOR.DTOs;
-using COLOR.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
-namespace COLOR.Data.Repository;
+namespace COLOR.Data.Repositories;
 
 public class PaletteRepository : IPaletteRepository
 {

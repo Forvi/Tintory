@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
-namespace COLOR.Domain.Etities;
+﻿namespace COLOR.Domain.Entities;
 
 public class ColorEntity
 {

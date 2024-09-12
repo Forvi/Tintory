@@ -1,7 +1,7 @@
-﻿using COLOR.Data.Repository;
+﻿using COLOR.Data.Repositories.Interfaces;
 using COLOR.Data.Validation;
-using COLOR.Domain.Etities;
 using COLOR.DTOs;
+using COLOR.Services.Interfaces;
 using FluentValidation;
 
 namespace COLOR.Services;

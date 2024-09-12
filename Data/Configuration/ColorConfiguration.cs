@@ -1,4 +1,4 @@
-﻿using COLOR.Domain.Etities;
+﻿using COLOR.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

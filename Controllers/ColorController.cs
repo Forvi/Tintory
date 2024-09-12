@@ -1,6 +1,6 @@
 ﻿using COLOR.DTOs;
-using COLOR.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
+using COLOR.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace COLOR.Controllers;
@@ -15,15 +15,16 @@ public class ColorController : ControllerBase
         _colorService = colorService;
         _logger = logger;
     }
-
-    [HttpPost("GenerateColor")]
+    
+    [HttpPost("GenerateColor"), Authorize]
     public ActionResult<string> ColorGenerate()
     {
         var hex = _colorService.ColorGenerate();
         return hex;
     }
 
-    [HttpPost("AddColorToPalette")]
+    [Authorize]
+    [HttpPost("AddColorToPalette"), Authorize]
     public async Task<IActionResult> AddColorToPalette(HexPaletteIdDto request, CancellationToken ct)
     {
         try
@@ -36,7 +37,7 @@ public class ColorController : ControllerBase
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            _logger.LogError(e, "Error");
             throw;
         }
     }

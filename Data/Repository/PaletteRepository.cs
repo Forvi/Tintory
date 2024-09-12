@@ -17,7 +17,7 @@ public class PaletteRepository : IPaletteRepository
         _logger = logger;
     }
 
-    public async Task CreatePalette(string name, CancellationToken ct)
+    public async Task<PaletteEntity> CreatePalette(string name, CancellationToken ct)
     {
         try
         {
@@ -29,6 +29,7 @@ public class PaletteRepository : IPaletteRepository
             
             await _dbContext.AddAsync(palette, ct);
             await _dbContext.SaveChangesAsync(ct);
+            return palette;
         }
         catch (OperationCanceledException)
         {

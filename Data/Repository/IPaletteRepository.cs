@@ -5,7 +5,7 @@ namespace COLOR.Data.Repository;
 
 public interface IPaletteRepository
 {
-    public Task CreatePalette(string name, CancellationToken ct);
+    public Task<PaletteEntity> CreatePalette(string name, CancellationToken ct);
     public Task<List<GetAllPalettesDto>> GetAllPalettes(CancellationToken ct);
     public Task<PaletteEntity> FindPaletteByName(string name, CancellationToken ct);
     public Task<PaletteEntity> FindPaletteById(Guid id, CancellationToken ct);

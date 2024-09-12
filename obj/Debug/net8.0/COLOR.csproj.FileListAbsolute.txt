@@ -105,3 +105,4 @@ D:\Learning\COLOR\COLOR\obj\Debug\net8.0\refint\COLOR.dll
 D:\Learning\COLOR\COLOR\obj\Debug\net8.0\COLOR.pdb
 D:\Learning\COLOR\COLOR\obj\Debug\net8.0\COLOR.genruntimeconfig.cache
 D:\Learning\COLOR\COLOR\obj\Debug\net8.0\ref\COLOR.dll
+D:\Learning\COLOR\COLOR\obj\Debug\net8.0\COLOR.sourcelink.json

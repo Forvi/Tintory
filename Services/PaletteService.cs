@@ -28,7 +28,7 @@ public class PaletteService : IPaletteService
             if (!validateResult.IsValid)
             {
                 foreach (var error in validateResult.Errors)
-                    Console.WriteLine($"Property: {error.PropertyName}; Error: {error.ErrorMessage}");
+                    _logger.LogError($"Property: {error.PropertyName}; Error: {error.ErrorMessage}");
 
                 throw new ValidationException("Validation passed");
             }

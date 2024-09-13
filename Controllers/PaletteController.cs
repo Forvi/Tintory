@@ -1,4 +1,6 @@
-﻿using COLOR.DTOs;
+﻿using System.Security.Claims;
+using COLOR.Domain.Entities;
+using COLOR.DTOs;
 using COLOR.Services;
 using COLOR.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +26,16 @@ public class PaletteController : ControllerBase
     {
         try
         {
-            await _paletteServiceService.CreatePalette(request.Name, ct);
+            var user = HttpContext.User;
+            var userIdClaim = user.FindFirst("userId")?.Value;
+            
+            if (string.IsNullOrEmpty(userIdClaim))
+                return BadRequest("id not found");
+
+            if (!Guid.TryParse(userIdClaim, out var userId))
+                return BadRequest("invalid user ID format");
+            
+            await _paletteServiceService.CreatePalette(request.Name, userId, ct);
             return Ok(200);
         }
         catch (InvalidOperationException e)

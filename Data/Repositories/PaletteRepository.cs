@@ -16,14 +16,15 @@ public class PaletteRepository : IPaletteRepository
         _logger = logger;
     }
 
-    public async Task<PaletteEntity> CreatePalette(string name, CancellationToken ct)
+    public async Task<PaletteEntity> CreatePalette(string name, Guid userId, CancellationToken ct)
     {
         try
         {
             var palette = new PaletteEntity
             {
                 Id = Guid.NewGuid(),
-                Name = name
+                Name = name,
+                UserId = userId
             };
             
             await _dbContext.AddAsync(palette, ct);

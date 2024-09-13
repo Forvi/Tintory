@@ -17,12 +17,12 @@ public class PaletteService : IPaletteService
         _logger = logger;
     }
 
-    public async Task CreatePalette(string name, CancellationToken ct)
+    public async Task CreatePalette(string name, Guid userId, CancellationToken ct)
     {
         try
         {
             var validate = new PaletteValidation();
-            var palette = await _repository.CreatePalette(name, ct);
+            var palette = await _repository.CreatePalette(name, userId, ct);
 
             var validateResult = await validate.ValidateAsync(palette, ct);
             if (!validateResult.IsValid)

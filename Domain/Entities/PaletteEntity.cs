@@ -6,5 +6,5 @@ public class PaletteEntity
     public string Name { get; set; }
     public IList<ColorEntity> Colors { get; set; } = new List<ColorEntity>();
     public UserEntity User { get; set; }
-    public Guid UserId { get; set; }
+    public Guid? UserId { get; set; }
 }

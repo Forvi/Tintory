@@ -1,5 +1,6 @@
 ﻿using COLOR.Data.Repositories.Interfaces;
 using COLOR.Data.Validation;
+using COLOR.Domain.Entities;
 using COLOR.DTOs;
 using COLOR.Services.Interfaces;
 using FluentValidation;
@@ -52,6 +53,21 @@ public class PaletteService : IPaletteService
                 _logger.LogError("No palettes found");
             
             return palettes;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error");
+            throw;
+        }
+    }
+
+    public async Task<List<GetPalettesByUserNameDto>> GetPaletteByUserName(string userName, CancellationToken ct)
+    {
+        try
+        {
+            var palette = await _repository.GetPalettesByUserName(userName, ct);
+            
+            return palette;
         }
         catch (Exception e)
         {

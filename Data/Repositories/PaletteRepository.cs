@@ -26,7 +26,7 @@ public class PaletteRepository : IPaletteRepository
                 Name = name,
                 UserId = userId
             };
-            
+
             await _dbContext.AddAsync(palette, ct);
             await _dbContext.SaveChangesAsync(ct);
             return palette;
@@ -48,13 +48,14 @@ public class PaletteRepository : IPaletteRepository
         try
         {
             var palettes = await _dbContext.PaletteEntities
-                .Select(p => 
+                .Select(p =>
                     new GetAllPalettesDto(
-                    p.Id, 
-                    p.Name, 
-                    p.Colors.Select(c => new GetColorInPaletteDto(c.Id, c.HexCode))))
+                        p.Id,
+                        p.Name,
+                        p.User.Name,
+                        p.Colors.Select(c => new GetColorInPaletteDto(c.Id, c.HexCode))))
                 .ToListAsync(ct);
-            
+
             return palettes;
         }
         catch (OperationCanceledException)
@@ -69,6 +70,34 @@ public class PaletteRepository : IPaletteRepository
         }
     }
 
+    public async Task<List<GetPalettesByUserNameDto>> GetPalettesByUserName(string userName, CancellationToken ct)
+    {
+        try
+        {
+            var user = await _dbContext.UserEntities
+                .Include(u => u.Palettes)
+                .ThenInclude(p => p.Colors)
+                .FirstOrDefaultAsync(u => u.Name == userName, ct);
+
+            if (user == null)
+            {
+                _logger.LogWarning("User with name {UserName} not found", userName);
+                return new List<GetPalettesByUserNameDto>();
+            }
+
+            var colors = user.Palettes.Select(p => new GetPalettesByUserNameDto(
+                p.Colors.Select(c => new GetColorInPaletteDto(c.Id, c.HexCode)).ToList()
+            )).ToList();
+
+            return colors;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error while fetching palettes for user {UserName}", userName);
+            throw;
+        }
+    }
+
     public async Task<PaletteEntity> FindPaletteByName(string name, CancellationToken ct)
     {
         try
@@ -78,8 +107,11 @@ public class PaletteRepository : IPaletteRepository
                 .FirstOrDefaultAsync(p => p.Name == name, ct);
 
             if (palette == null)
-                throw new InvalidOperationException("Palette not found");
-            
+            {
+                _logger.LogWarning("Palette with name {name} not found", name); 
+                return new PaletteEntity();
+            }
+
             return palette;
         }
         catch (OperationCanceledException)
@@ -93,7 +125,7 @@ public class PaletteRepository : IPaletteRepository
             throw;
         }
     }
-    
+
     public async Task<PaletteEntity> FindPaletteById(Guid id, CancellationToken ct)
     {
         try
@@ -104,13 +136,13 @@ public class PaletteRepository : IPaletteRepository
 
             if (palette == null)
                 throw new ArgumentNullException();
-            
+
             return palette;
         }
         catch (OperationCanceledException)
         {
-            _logger.LogInformation("Operation was cancelled");
-            throw;
+            _logger.LogWarning("Palette with id {id} not found", id); 
+            return new PaletteEntity();
         }
         catch (Exception e)
         {
@@ -121,12 +153,12 @@ public class PaletteRepository : IPaletteRepository
 
     public async Task AddColorToPalette(ColorEntity color, PaletteEntity palette, CancellationToken ct)
     {
-        if (color == null) 
+        if (color == null)
             throw new ArgumentNullException(nameof(color), "Color entity cannot be null");
 
-        if (palette == null) 
+        if (palette == null)
             throw new ArgumentNullException(nameof(palette), "Palette entity cannot be null");
-        
+
         palette.Colors.Add(color);
         await _dbContext.SaveChangesAsync(ct);
         return;

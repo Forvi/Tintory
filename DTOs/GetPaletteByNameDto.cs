@@ -1,3 +1,5 @@
-﻿namespace COLOR.DTOs;
+﻿using COLOR.Domain.Entities;
 
-public record GetPaletteByNameDto(Guid Id, string Name, ICollection<byte[]> Colors);
+namespace COLOR.DTOs;
+
+public record GetPaletteByNameDto(Guid Id, string Name, IList<ColorEntity> Colors);

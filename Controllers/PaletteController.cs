@@ -12,12 +12,12 @@ namespace COLOR.Controllers;
 [Route("api/[controller]")]
 public class PaletteController : ControllerBase
 {
-    private readonly IPaletteService _paletteServiceService;
+    private readonly IPaletteService _paletteService;
     private readonly ILogger<PaletteController> _logger;
 
     public PaletteController(IPaletteService service, ILogger<PaletteController> logger)
     {
-        _paletteServiceService = service;
+        _paletteService = service;
         _logger = logger;
     }
     
@@ -35,7 +35,7 @@ public class PaletteController : ControllerBase
             if (!Guid.TryParse(userIdClaim, out var userId))
                 return BadRequest("invalid user ID format");
             
-            await _paletteServiceService.CreatePalette(request.Name, userId, ct);
+            await _paletteService.CreatePalette(request.Name, userId, ct);
             return Ok(200);
         }
         catch (InvalidOperationException e)
@@ -56,9 +56,23 @@ public class PaletteController : ControllerBase
         var generator = new ColorGenerateService();
         var list = new List<byte[]>();
         
-        var palettes = await _paletteServiceService.GetAllPalettes(ct);
+        var palettes = await _paletteService.GetAllPalettes(ct);
 
         return Ok(palettes);
     }
 
+    [HttpGet("GetPaletteByUserName"), Authorize]
+    public async Task<List<GetPalettesByUserNameDto>> GetPaletteByUserName(string userName, CancellationToken ct)
+    {
+        try
+        {
+            var palette = await _paletteService.GetPaletteByUserName(userName, ct);
+            return palette;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "error");
+            throw;
+        }
+    }
 }

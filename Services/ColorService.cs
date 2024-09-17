@@ -20,11 +20,21 @@ public class ColorService : IColorService
         _paletteRepository = paletteRepository;
     }
 
-    public string ColorGenerate()
+    public List<string> ColorGenerate(int quantity)
     {
+        if (quantity <= 0) quantity = 5;
+        if (quantity > 8) quantity = 8;
+        
         var generator = new ColorGenerateService();
-        var hex = generator.ColorGenerate();
-        return hex;
+        List<string> hexList = new List<string>();
+        
+        for (int i = 0; i < quantity; i++)
+        {
+            var code = generator.ColorGenerate();
+            hexList.Add(code);
+        }
+        
+        return hexList;
     }
     
     public async Task AddColorToPalette(string hexCode, Guid paletteId, CancellationToken ct)

@@ -13,31 +13,17 @@ public class ColorGenerateService
         return colorCode;
     }
 
-    // public byte[] ConvertHexToBytes(string hex)
-    // {
-    //     hex = hex.TrimStart('#');
-    //
-    //     byte r = Convert.ToByte(hex.Substring(0, 2), 16);
-    //     byte g = Convert.ToByte(hex.Substring(2, 2), 16);
-    //     byte b = Convert.ToByte(hex.Substring(4, 2), 16);;
-    //     
-    //     return new byte[] {r, g, b};
-    // }
-    
     public byte[] ConvertHexToBytes(string hex)
     {
-        return Enumerable.Range(0, hex.Length)
-            .Where(x => x % 2 == 0)
-            .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
-            .ToArray();
+        hex = hex.TrimStart('#');
+    
+        byte r = Convert.ToByte(hex.Substring(0, 2), 16);
+        byte g = Convert.ToByte(hex.Substring(2, 2), 16);
+        byte b = Convert.ToByte(hex.Substring(4, 2), 16);;
+        
+        return new byte[] {r, g, b};
     }
-
-    public ICollection<byte[]> ConvertStringsToBytes(ICollection<string> hexColors)
-    {
-        return hexColors.Select(hex => ConvertHexToBytes(hex)).ToList();
-    }
-
-
+    
     public string ConvertBytesToHex(byte[] bytes)
     {
         if (bytes.Length != 3)

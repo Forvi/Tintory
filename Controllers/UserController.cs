@@ -18,7 +18,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterUserDto request, CancellationToken ct)
+    public async Task<IActionResult> Register([FromQuery]RegisterUserDto request, CancellationToken ct)
     {
         try
         {
@@ -33,7 +33,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginUserDto request, CancellationToken ct)
+    public async Task<IActionResult> Login([FromQuery]LoginUserDto request, CancellationToken ct)
     {
         var context = HttpContext.Response.Cookies;
         var token = await _userService.Login(request.Email, request.Password, ct);

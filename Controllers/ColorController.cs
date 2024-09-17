@@ -16,11 +16,11 @@ public class ColorController : ControllerBase
         _logger = logger;
     }
     
-    [HttpPost("GenerateColor"), Authorize]
-    public ActionResult<string> ColorGenerate()
+    [HttpPost("GenerateColor")]
+    public ActionResult<List<string>> ColorGenerate([FromQuery]int quantity)
     {
-        var hex = _colorService.ColorGenerate();
-        return hex;
+        var hex = _colorService.ColorGenerate(quantity);
+        return Ok(hex);
     }
 
     [Authorize]

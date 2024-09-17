@@ -1,3 +1,5 @@
-﻿namespace COLOR.DTOs;
+﻿using COLOR.Domain.Entities;
 
-public record GetAllPalettesDto(Guid Id, string Name, IEnumerable<GetColorInPaletteDto> Colors);
+namespace COLOR.DTOs;
+
+public record GetAllPalettesDto(Guid Id, string Name, string UserName, IEnumerable<GetColorInPaletteDto> Colors);
